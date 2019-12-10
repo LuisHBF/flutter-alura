@@ -2,25 +2,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() =>
-    runApp(MaterialApp(
+    runApp(BytebankApp());
+
+class BytebankApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: Text('Transferências'),),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: null,
-          ),
-          body: ListaTransferencia()
+          body: FormularioTransferencia()
       ),
-    ));
+    );
+  }
+}
+
+
+class FormularioTransferencia extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Criando Transferência'),),
+        body: Text('texto texto texto'),
+      );
+  }
+
+}
 
 class ListaTransferencia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      ItemTransferencia(Transferencia("1000-x", 350.5)),
-      ItemTransferencia(Transferencia("1003-0", 220))
-
-    ],);
+    return Scaffold(
+        appBar: AppBar(title: Text('Transferências'),),
+        body: Column(children: <Widget>[
+          ItemTransferencia(Transferencia("1000-x", 350.5)),
+          ItemTransferencia(Transferencia("1003-0", 220))
+        ],),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: null,
+        )
+    );
   }
 
 
@@ -47,7 +67,7 @@ class ItemTransferencia extends StatelessWidget {
 
 }
 
-class Transferencia{
+class Transferencia {
   final String _conta;
   final double _valor;
 
