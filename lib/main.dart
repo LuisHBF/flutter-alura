@@ -25,45 +25,62 @@ class FormularioTransferencia extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _controladorCampoNumeroConta,
-                decoration: InputDecoration(
-                    labelText: 'Número da Conta', hintText: '0000-0'),
-                style: TextStyle(fontSize: 24.0),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _controladorCampoValor,
-                decoration: InputDecoration(
-                    labelText: 'Valor',
-                    hintText: '0.00',
-                    icon: Icon(Icons.monetization_on)),
-                style: TextStyle(fontSize: 24.0),
-                keyboardType: TextInputType.number,
-              ),
+            Editor(
+                controlador: _controladorCampoNumeroConta,
+                dica: 'Número da Conta',
+                rotulo: '0000-0'),
+            Editor(
+              controlador: _controladorCampoValor,
+              dica: 'Valor',
+              rotulo: '0.00',
+              icone: Icons.monetization_on,
             ),
             RaisedButton(
               child: Text('Confirmar'),
               onPressed: () {
-                final double valor =
-                    double.tryParse(_controladorCampoValor.text);
-                final String conta = _controladorCampoNumeroConta.text;
-
-                if (conta != null && valor != null) {
-                  final Transferencia transferenciaCriada =
-                      Transferencia(conta, valor);
-
-                  debugPrint('$transferenciaCriada');
-                }
+                _criaTransferencia();
               },
             )
           ],
         ));
+  }
+
+  void _criaTransferencia() {
+    final double valor =
+        double.tryParse(_controladorCampoValor.text);
+    final String conta = _controladorCampoNumeroConta.text;
+
+    if (conta != null && valor != null) {
+      final Transferencia transferenciaCriada =
+          Transferencia(conta, valor);
+
+      debugPrint('$transferenciaCriada');
+    }
+  }
+}
+
+class Editor extends StatelessWidget {
+  final TextEditingController controlador;
+  final String rotulo;
+  final String dica;
+  final IconData icone;
+
+  Editor({this.controlador, this.rotulo, this.dica, this.icone});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        controller: controlador,
+        decoration: InputDecoration(
+            icon: icone != null ? Icon(icone) : null,
+            labelText: rotulo,
+            hintText: dica),
+        style: TextStyle(fontSize: 24.0),
+        keyboardType: TextInputType.number,
+      ),
+    );
   }
 }
 
@@ -114,6 +131,4 @@ class Transferencia {
   String toString() {
     return 'Transferencia{_conta: $_conta, _valor: $_valor}';
   }
-
-
 }
